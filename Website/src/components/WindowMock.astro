@@ -1,0 +1,171 @@
+---
+/**
+ * A drawn macOS desktop with Kagami's window on it, mid-flash. Everything here is
+ * CSS on real elements rather than a screenshot, so it stays sharp at any size,
+ * follows the page's light and dark themes, and costs no image bytes. The window
+ * mirrors the app's own layout: two numbered steps, then the progress area.
+ */
+---
+
+<div class="mock">
+  <div class="mock__frame">
+    <div class="mock__screen" aria-hidden="true">
+      <div class="mock__menubar">
+        <span class="mock__mb-mark"></span>
+        <span class="mock__mb-item mock__mb-item--bold"></span>
+        <span class="mock__mb-item"></span>
+        <span class="mock__mb-item"></span>
+        <span class="mock__mb-spacer"></span>
+        <span class="mock__mb-item mock__mb-item--sm"></span>
+        <span class="mock__mb-item mock__mb-item--sm"></span>
+        <span class="mock__mb-clock"></span>
+      </div>
+
+      <div class="mock__stage">
+        <div class="mock__window kw">
+          <div class="mock__titlebar kw__titlebar">
+            <i class="mock__light mock__light--r"></i>
+            <i class="mock__light mock__light--y"></i>
+            <i class="mock__light mock__light--g"></i>
+            <span class="kw__title">Kagami</span>
+          </div>
+          <div class="kw__body">
+            <div class="kw__step">
+              <b class="kw__num">1</b>
+              <span class="kw__label">Image</span>
+              <span class="kw__value">
+                <span>raspios-bookworm-arm64.img.xz</span>
+                <small>xz · 1.1 GB → 5.7 GB</small>
+              </span>
+              <span class="kw__button">Choose…</span>
+            </div>
+            <div class="kw__step">
+              <b class="kw__num">2</b>
+              <span class="kw__label">Drive</span>
+              <span class="kw__popup">SanDisk Ultra — 32 GB (disk4)</span>
+            </div>
+            <hr class="kw__rule" />
+            <div class="kw__progress">
+              <span>Writing… 62%</span>
+              <small>38 MB/s · 1 min left</small>
+            </div>
+            <div class="kw__bar"><i></i></div>
+            <span class="kw__button kw__cancel">Cancel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .kw {
+    inline-size: 48cqw;
+    font-size: 1.25cqw;
+    color: var(--ink);
+  }
+
+  .kw__titlebar {
+    position: relative;
+  }
+
+  .kw__title {
+    position: absolute;
+    inset-inline: 0;
+    text-align: center;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .kw__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6cqw;
+    padding: 2.2cqw;
+  }
+
+  .kw__step {
+    display: flex;
+    align-items: center;
+    gap: 1.1cqw;
+  }
+
+  .kw__num {
+    display: grid;
+    place-items: center;
+    inline-size: 2cqw;
+    block-size: 2cqw;
+    border-radius: 50%;
+    background: var(--brand-600);
+    color: #fff;
+    font-size: 1.05cqw;
+  }
+
+  .kw__label {
+    inline-size: 4.6cqw;
+    font-weight: 600;
+  }
+
+  .kw__value {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+
+  .kw__value span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    font-size: 0.95cqw;
+    color: var(--ink-faint);
+  }
+
+  .kw__button,
+  .kw__popup {
+    padding: 0.35cqw 1cqw;
+    border: 1px solid var(--hairline);
+    border-radius: 0.6cqw;
+    background: var(--surface-raised);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.08);
+    white-space: nowrap;
+  }
+
+  .kw__popup {
+    flex: 1;
+  }
+
+  .kw__rule {
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--hairline);
+  }
+
+  .kw__progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .kw__bar {
+    block-size: 0.7cqw;
+    border-radius: 999px;
+    background: var(--hairline);
+    overflow: hidden;
+  }
+
+  .kw__bar i {
+    display: block;
+    inline-size: 62%;
+    block-size: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--brand-500), var(--brand-700));
+  }
+
+  .kw__cancel {
+    align-self: flex-end;
+  }
+</style>

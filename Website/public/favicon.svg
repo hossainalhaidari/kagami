@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Kagami">
+  <!-- The app icon, flattened to one file: the bronze gradient from
+       Resources/AppIcon.icon/icon.json, with the face, rim and card layers on top. -->
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0" stop-color="#F0CF78"/>
+      <stop offset="1" stop-color="#8A531B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="230" fill="url(#ground)"/>
+  
+<path fill="#ffffff" fill-opacity="0.22" d="M 512 202 A 310 310 0 1 1 511.9 202 Z"/>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="30" stroke-opacity="0.9"
+        d="M 300 420 A 240 240 0 0 1 400 285"/>  <path fill="#ffffff" fill-rule="evenodd"
+        d="M 512 112 A 400 400 0 1 1 511.9 112 Z M 512 172 A 340 340 0 1 0 512.1 172 Z"/>  <path fill="#ffffff" fill-rule="evenodd" d="
+    M 426 330 H 562 L 632 400 V 596 A 34 34 0 0 1 598 630 H 426 A 34 34 0 0 1 392 596 V 364 A 34 34 0 0 1 426 330 Z
+    M 420.8 357 h 22.8 v 66 h -22.8 Z
+    M 458 357 h 22.8 v 66 h -22.8 Z
+    M 495.2 357 h 22.8 v 66 h -22.8 Z
+    M 532.4 357 h 22.8 v 66 h -22.8 Z"/>
+</svg>

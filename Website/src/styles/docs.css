@@ -1,0 +1,119 @@
+/* Starlight theming.
+
+   Starlight is dark-first: its own values sit on :root and the light set sits on
+   :root[data-theme='light']. This file follows that convention rather than
+   fighting it, and feeds Starlight the same palette theme.css gives the landing
+   page, so moving between the homepage and the docs is not a change of site. */
+
+:root {
+  --sl-color-accent-low: #3a2a10;
+  --sl-color-accent: #c9922e;
+  --sl-color-accent-high: #f2dca2;
+
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #f6efe4;
+  --sl-color-gray-2: #ddd0bb;
+  --sl-color-gray-3: #b09f86;
+  --sl-color-gray-4: #7d6c55;
+  --sl-color-gray-5: #57492f;
+  --sl-color-gray-6: #3a2d1c;
+  --sl-color-gray-7: #261d12;
+  --sl-color-black: #15100a;
+
+  --sl-color-bg: #15100a;
+  --sl-color-bg-nav: rgb(27 20 12 / 0.85);
+  --sl-color-bg-sidebar: #1b140c;
+
+  --sl-font: var(--font-sans);
+  --sl-font-mono: var(--font-mono);
+
+  --sl-content-width: 50rem;
+  --sl-nav-height: 3.75rem;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f6ebd2;
+  --sl-color-accent: #9a6420;
+  --sl-color-accent-high: #5e3710;
+
+  --sl-color-white: #22180c;
+  --sl-color-gray-1: #2e2316;
+  --sl-color-gray-2: #4c3d2b;
+  --sl-color-gray-3: #75644e;
+  --sl-color-gray-4: #95846c;
+  --sl-color-gray-5: #c9bba5;
+  --sl-color-gray-6: #ece3d4;
+  --sl-color-gray-7: #f6f0e6;
+  --sl-color-black: #ffffff;
+
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: rgb(255 255 255 / 0.85);
+  --sl-color-bg-sidebar: #fcf9f4;
+}
+
+/* --- Chrome ------------------------------------------------------------- */
+
+header.header {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.site-title img,
+.site-title svg {
+  border-radius: 7px;
+}
+
+/* --- Content ------------------------------------------------------------ */
+
+.sl-markdown-content h2 {
+  padding-block-end: 0.3em;
+  border-block-end: 1px solid var(--sl-color-gray-6);
+}
+
+.sl-markdown-content :is(h2, h3, h4) {
+  letter-spacing: -0.012em;
+}
+
+.sl-markdown-content kbd,
+.sl-markdown-content :not(pre) > code {
+  font-variant-ligatures: none;
+}
+
+/* Tables carry a lot of this documentation: the modifier grammar, the
+   permission matrix, the settings menu. They earn some room to breathe. */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: var(--sl-text-sm);
+}
+
+.sl-markdown-content :is(th, td) {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--sl-color-gray-6);
+  vertical-align: top;
+}
+
+.sl-markdown-content th {
+  background: var(--sl-color-gray-7);
+  text-align: start;
+  font-weight: 600;
+}
+
+.sl-markdown-content td:first-child {
+  white-space: nowrap;
+}
+
+/* A two-column table with an empty header row is this project's idiom for a
+   term list. Hide the blank header rather than leaving a stripe of nothing. */
+.sl-markdown-content table:has(th:empty:only-of-type) thead,
+.sl-markdown-content table:has(thead th:empty + th:empty) thead {
+  display: none;
+}
+
+/* --- Footer ------------------------------------------------------------- */
+
+footer.sl-flex {
+  border-block-start: 1px solid var(--sl-color-gray-6);
+  padding-block-start: 1.5rem;
+}

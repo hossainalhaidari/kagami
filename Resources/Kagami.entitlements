@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Kagami needs nothing beyond the Hardened Runtime itself: raw disk access goes through
+     /usr/libexec/authopen, and Disk Arbitration needs no entitlement. The file exists so that
+     sign-app.sh signs every build the same way, and so that one added later has a place to go. -->
+<plist version="1.0">
+<dict/>
+</plist>

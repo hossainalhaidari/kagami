@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- The rim of a round bronze kagami: a ring punched out with even-odd, so Tahoe's tinted and
+       clear appearances, which flatten every layer to one colour, still show the face through it. -->
+  <path fill="#ffffff" fill-rule="evenodd"
+        d="M 512 112 A 400 400 0 1 1 511.9 112 Z M 512 172 A 340 340 0 1 0 512.1 172 Z"/>
+</svg>

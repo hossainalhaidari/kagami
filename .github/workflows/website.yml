@@ -1,0 +1,75 @@
+name: Website
+
+# Builds the Astro site in Website/ and publishes it to GitHub Pages, for every push to main that
+# touches it. A push that changes only the app leaves the site alone: it would deploy the same
+# bytes again.
+#
+# The address is https://hossainalhaidari.github.io/kagami/, the repository's project page, which is
+# why Website/astro.config.mjs sets `base: '/kagami'`. A domain of its own later means a
+# Website/public/CNAME, the same domain in the Pages settings, and dropping `base`.
+#
+# ci.yml is the other half of the split: it ignores Website/ and Markdown, this one builds nothing
+# but them.
+#
+# Pages itself is turned on once, outside this workflow — Settings ▸ Pages ▸ Source: GitHub Actions,
+# or `gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`. actions/configure-pages
+# offers to do it with `enablement: true`, but the token a workflow gets may not create a Pages
+# site: it answers "Resource not accessible by integration".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Website/**'
+      - '.github/workflows/website.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # deploy-pages authenticates with an OIDC token rather than a secret, which is what id-token buys.
+  pages: write
+  id-token: write
+
+# One deployment at a time, and a newer push supersedes one still building: only the last result is
+# ever served.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          # The Node the lock file was written by, not merely one Astro 7 accepts (22.12 or newer).
+          # package-lock.json is a resolved tree, and the npm of an older Node resolves a different
+          # one — Node 22's refused this lock over two optional sharp dependencies it expected to
+          # find in it. Whoever changes this changes .nvmrc with it, and runs npm install after.
+          node-version-file: Website/.nvmrc
+          cache: npm
+          cache-dependency-path: Website/package-lock.json
+
+      - run: npm ci
+        working-directory: Website
+
+      - run: npm run build
+        working-directory: Website
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: Website/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5

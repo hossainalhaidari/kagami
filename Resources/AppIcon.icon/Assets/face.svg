@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- The mirror's polished face, faintly lit, with a glint along its upper-left edge. -->
+  <path fill="#ffffff" fill-opacity="0.22" d="M 512 202 A 310 310 0 1 1 511.9 202 Z"/>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="30" stroke-opacity="0.9"
+        d="M 300 420 A 240 240 0 0 1 400 285"/>
+</svg>

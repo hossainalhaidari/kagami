@@ -1,0 +1,51 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "extended-srgb:0.94118,0.81176,0.47059,1.00000",
+      "extended-srgb:0.54118,0.32549,0.10588,1.00000"
+    ]
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "face.svg",
+          "name" : "Face"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.25
+      }
+    },
+    {
+      "layers" : [
+        {
+          "image-name" : "rim.svg",
+          "name" : "Rim"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.4
+      }
+    },
+    {
+      "layers" : [
+        {
+          "image-name" : "card.svg",
+          "name" : "Card"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "macOS"
+    ]
+  }
+}

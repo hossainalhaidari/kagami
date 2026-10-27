@@ -1,0 +1,46 @@
+---
+title: Overview
+description: What Kagami is, what it does to a drive, and where to start reading.
+tableOfContents: false
+---
+
+import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
+
+Kagami writes disk images to USB drives and SD cards. Choose an image, choose a drive, press
+**Flash** — that is the whole app.
+
+It copies the image **byte for byte**, the way `dd` does, so the drive ends up with the image's own
+partition table and boot sectors: a Raspberry Pi card that boots, a Linux USB stick that boots. Then
+it reads the drive back and compares, so you know it worked before you walk over to the other
+machine.
+
+It **collects nothing and sends nothing about you**, and goes online only to look for an update —
+which it does only when you ask, until you choose otherwise. [Privacy](./privacy/) spells out what
+that request carries.
+
+<Aside title="What Kagami means">
+**Kagami** — 鏡 — is Japanese for mirror. The drive becomes an exact reflection of the image: every
+byte where the image put it, nothing more.
+</Aside>
+
+<CardGrid>
+  <Card title="Bootable" icon="rocket">
+    A raw, byte-for-byte copy — partition table, boot code and all. See
+    [Supported images](./images/) for what that does and does not cover.
+  </Card>
+  <Card title="Compressed images" icon="document">
+    `.gz`, `.xz`, `.bz2` and `.zip`, decompressed while they are written. No extracting first.
+  </Card>
+  <Card title="Verified" icon="approve-check">
+    Read back and compared after writing. A damaged download or a failing card is reported.
+  </Card>
+  <Card title="Safe by default" icon="warning">
+    Only external drives and SD cards are listed, and every flash asks first. See [Safety](./safety/).
+  </Card>
+</CardGrid>
+
+## Where next
+
+- [Install and run](./install/) — download, Homebrew, or build it yourself.
+- [Flashing a drive](./flashing/) — the three steps, and what each part of the window means.
+- [Troubleshooting](./troubleshooting/) — a drive that does not show up, a verification that fails.

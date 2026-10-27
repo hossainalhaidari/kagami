@@ -1,0 +1,6 @@
+// libbz2 ships with macOS but has no Swift module of its own.
+module CBZip2 [system] {
+    header "shim.h"
+    link "bz2"
+    export *
+}

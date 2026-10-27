@@ -1,0 +1,81 @@
+/* Design tokens, shared by the landing page and the docs so the two read as one
+   site. Every colour is defined on bare :root first; the dark blocks only
+   redefine, so no token is ever left undefined in one theme.
+
+   The palette comes from the app icon: the bronze gradient in
+   Resources/AppIcon.icon/icon.json runs #f0cf78 -> #8a531b. */
+
+:root {
+  --brand-500: #e8c060;
+  --brand-600: #c9922e;
+  --brand-700: #9a6420;
+  --brand-900: #5e3710;
+  --brand-ink: #2e1a06;
+
+  --ground: #ffffff;
+  --ground-sunk: #faf6ef;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --hairline: #ece3d4;
+  --hairline-soft: #f3ede2;
+
+  --ink: #22180c;
+  --ink-soft: #5e4f3d;
+  --ink-faint: #8a7a66;
+  --accent: var(--brand-700);
+  --accent-ink: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(40 25 8 / 0.05), 0 8px 24px -12px rgb(40 25 8 / 0.14);
+  --shadow-lift: 0 2px 4px rgb(40 25 8 / 0.06), 0 24px 56px -24px rgb(40 25 8 / 0.28);
+
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 22px;
+
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, 'JetBrains Mono', Menlo,
+    Consolas, monospace;
+
+  --measure: 1120px;
+}
+
+/* System-preference dark, unless an explicit light choice overrides it. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ground: #15100a;
+    --ground-sunk: #1b140c;
+    --surface: #221a10;
+    --surface-raised: #2a2014;
+    --hairline: #3a2d1c;
+    --hairline-soft: #2f2416;
+
+    --ink: #f6efe4;
+    --ink-soft: #cdbfa9;
+    --ink-faint: #a08f78;
+    --accent: #e8c060;
+    --accent-ink: #2e1a06;
+
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 28px -14px rgb(0 0 0 / 0.6);
+    --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.45), 0 28px 64px -28px rgb(0 0 0 / 0.75);
+  }
+}
+
+/* An explicit dark choice wins in both directions. */
+:root[data-theme='dark'] {
+  --ground: #15100a;
+  --ground-sunk: #1b140c;
+  --surface: #221a10;
+  --surface-raised: #2a2014;
+  --hairline: #3a2d1c;
+  --hairline-soft: #2f2416;
+
+  --ink: #f6efe4;
+  --ink-soft: #cdbfa9;
+  --ink-faint: #a08f78;
+  --accent: #e8c060;
+  --accent-ink: #2e1a06;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 28px -14px rgb(0 0 0 / 0.6);
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.45), 0 28px 64px -28px rgb(0 0 0 / 0.75);
+}

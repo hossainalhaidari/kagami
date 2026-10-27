@@ -1,0 +1,320 @@
+---
+import '../styles/theme.css';
+import '../styles/landing.css';
+import WindowMock from '../components/WindowMock.astro';
+import { url } from '../lib/url';
+
+const repo = 'https://github.com/hossainalhaidari/kagami';
+const releases = `${repo}/releases`;
+
+const title = 'Kagami — flash disk images on macOS';
+const description =
+  'Flash disk images to USB drives and SD cards on macOS — bootable, verified, nothing else.';
+
+const features = [
+  {
+    icon: 'boot',
+    title: 'Drives that boot',
+    body: 'The image is copied byte for byte, partition table and boot sectors included — the way dd does it. Raspberry Pi images and almost every Linux and BSD ISO boot from the result.',
+  },
+  {
+    icon: 'archive',
+    title: 'Compressed images, as they come',
+    body: '.gz, .xz, .bz2 and .zip are decompressed while they are written. No extracting first, no doubled disk space — Raspberry Pi OS .img.xz goes straight onto the card.',
+  },
+  {
+    icon: 'check',
+    title: 'Verified, not hoped',
+    body: 'Afterwards Kagami reads the drive back and compares it with the image. A damaged download or a failing card is reported, not discovered at boot.',
+  },
+  {
+    icon: 'shield',
+    title: 'Only drives you can erase',
+    body: 'USB drives and SD cards are listed. Your Mac’s own disk, disk images and APFS containers never are, and every flash asks before it erases.',
+  },
+  {
+    icon: 'key',
+    title: 'Nothing to install',
+    body: 'The administrator prompt is macOS’s own, through authopen. No helper tool, no background daemon, nothing left behind once the flash is done.',
+  },
+  {
+    icon: 'eject',
+    title: 'Done means removable',
+    body: 'Unmounted before, ejected after — so the next thing you do is pull the drive out, not hunt for it in Finder.',
+  },
+];
+
+const icons: Record<string, string> = {
+  boot: '<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 3v4h8V3"/><path d="M12 11v5M9.5 13.5 12 16l2.5-2.5"/>',
+  archive:
+    '<rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M12 4v3M12 9v2M12 13v2"/><rect x="10" y="15" width="4" height="3" rx="1"/>',
+  check: '<circle cx="12" cy="12" r="8.5"/><path d="M8.2 12.3 10.9 15 16 9.4"/>',
+  shield: '<path d="M12 3 5 6v5.5c0 4.2 2.9 7.8 7 9.5 4.1-1.7 7-5.3 7-9.5V6Z"/><path d="M9 12l2.2 2.2L15.2 10"/>',
+  key: '<circle cx="8" cy="15" r="4"/><path d="M10.9 12.1 19 4M15.5 7.5l2.5 2.5M17.5 5.5l2 2"/>',
+  eject: '<path d="M12 4.5 4.5 13.5h15Z"/><path d="M4.5 18h15"/>',
+};
+
+const formats = [
+  ['.img, .iso, .raw', 'Written as they are.'],
+  ['.gz', 'gzip, including files with several members, as pigz writes them.'],
+  ['.xz', 'Including Raspberry Pi OS’s multi-block files. The size is read from the index, so a too-small drive is caught before writing.'],
+  ['.bz2', 'bzip2, including pbzip2’s multi-stream files.'],
+  ['.zip', 'Stored or deflated, ZIP64, and ZIPs made with Finder’s Compress. The image inside is found for you; a README next to it is ignored.'],
+];
+
+const steps = [
+  ['Unmount', 'Every volume on the drive, through Disk Arbitration.'],
+  ['Authorise', 'macOS asks for an administrator password, once per flash.'],
+  ['Write', 'Decompressing on the fly, in 4 MB chunks to the raw device.'],
+  ['Verify', 'Read back and compared with SHA-256. Skippable when you are in a hurry.'],
+  ['Eject', 'The drive is safe to pull out.'],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="canonical" href={new URL(url('/'), Astro.site ?? 'https://example.com')} />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <script is:inline>
+      // Runs before first paint, and reads the same key Starlight's theme
+      // selector writes, so a choice made in the docs is honoured here too.
+      try {
+        const stored = localStorage.getItem('starlight-theme');
+        if (stored === 'light' || stored === 'dark') {
+          document.documentElement.dataset.theme = stored;
+        }
+      } catch {}
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="masthead" data-masthead>
+      <div class="wrap masthead__inner">
+        <a class="brand" href={url('/')}>
+          <img src={url('/favicon.svg')} width="28" height="28" alt="" />
+          Kagami
+        </a>
+        <nav>
+          <a href="#features">Features</a>
+          <a href="#formats">Formats</a>
+          <a href="#how">How it works</a>
+          <a href={url('/docs/')}>Docs</a>
+          <a href={repo}>GitHub</a>
+          <button
+            class="theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-label="Switch between light and dark"
+          >
+            <svg class="sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <circle cx="12" cy="12" r="4.2" /><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6" />
+            </svg>
+            <svg class="moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M20 14.2A8.4 8.4 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2Z" />
+            </svg>
+          </button>
+          <a class="is-cta" href={releases}>Download</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ------------------------------------------------------------ hero -->
+      <section class="hero">
+        <div class="wrap">
+          <div class="hero__inner">
+            <a class="eyebrow" href={repo}>
+              <b>Open source</b> Built in Swift, for macOS
+            </a>
+            <h1>
+              Choose an image, choose a drive,<br class="only-wide" />
+              <span class="grad">press Flash.</span>
+            </h1>
+            <p class="lede">
+              Kagami writes disk images to USB drives and SD cards, and that is all it
+              does. The drive becomes an exact copy of the image — so it boots — and is
+              read back afterwards to prove it.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn--primary" href={releases}>
+                Download for macOS
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3.5v12M6.8 10.6 12 15.8l5.2-5.2M4.5 19.5h15" />
+                </svg>
+              </a>
+              <a class="btn btn--ghost" href={url('/docs/')}>Read the docs</a>
+            </div>
+            <p class="hero__note">
+              Free, open source, signed and notarised. Or <code>brew install --cask hossainalhaidari/tap/kagami</code>.
+            </p>
+          </div>
+
+          <WindowMock />
+        </div>
+      </section>
+
+      <!-- -------------------------------------------------------- features -->
+      <section id="features" class="sunk">
+        <div class="wrap">
+          <div class="section-head is-centred">
+            <span class="kicker">What it does</span>
+            <h2>One job, done properly</h2>
+            <p>
+              No accounts, no image catalogue, no settings to get wrong. Three steps, and
+              a drive you can trust.
+            </p>
+          </div>
+          <div class="grid">
+            {
+              features.map((feature) => (
+                <article class="card">
+                  <div class="ico">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      set:html={icons[feature.icon]}
+                    />
+                  </div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.body}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------- formats -->
+      <section id="formats">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="kicker">Formats</span>
+            <h2>Whatever the download page gave you</h2>
+            <p>
+              The format is read from the file itself, not its name. Windows installer ISOs
+              are the one common image that does not boot when written raw — with any tool
+              that writes raw, Kagami included.
+            </p>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr><th>File</th><th>Notes</th></tr>
+              </thead>
+              <tbody>
+                {
+                  formats.map(([file, note]) => (
+                    <tr>
+                      <td><code>{file}</code></td>
+                      <td>{note}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------- how -->
+      <section id="how" class="sunk">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="kicker">How it works</span>
+            <h2>What happens when you press Flash</h2>
+            <p>
+              Quitting mid-flash asks first, and an update never restarts Kagami while it is
+              writing.
+            </p>
+          </div>
+          <ul class="perm-list">
+            {
+              steps.map(([name, what]) => (
+                <li>
+                  <strong>{name}</strong>
+                  <span>{what}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------- close -->
+      <section>
+        <div class="wrap">
+          <div class="closer">
+            <h2>Make the drive a mirror of the image</h2>
+            <p>
+              Install it, flash something, and read the docs when you want the parts that
+              are not obvious.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn--primary" href={releases}>Download for macOS</a>
+              <a class="btn btn--ghost" href={url('/docs/install/')}>Build from source</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>Kagami — 鏡 — is Japanese for mirror. A disk image flasher, for macOS.</span>
+        <nav>
+          <a href={url('/docs/')}>Documentation</a>
+          <a href={url('/docs/images/')}>Supported images</a>
+          <a href={url('/docs/privacy/')}>Privacy</a>
+          <a href={url('/docs/troubleshooting/')}>Troubleshooting</a>
+          <a href={repo}>Source</a>
+          <a href={`${repo}/blob/main/LICENSE`}>MIT License</a>
+          <a href={url('/docs/transparency/')}>Transparency</a>
+          <a href={`${repo}/issues`}>Issues</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script is:inline>
+      // Theme toggle. Writes the key Starlight reads, so the choice survives the
+      // walk from here into the docs and back.
+      const root = document.documentElement;
+      const toggle = document.querySelector('[data-theme-toggle]');
+
+      const current = () =>
+        root.dataset.theme ??
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+      toggle?.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('starlight-theme', next);
+        } catch {}
+      });
+
+      // Hairline under the header, once it has something to separate.
+      const masthead = document.querySelector('[data-masthead]');
+      const onScroll = () => {
+        masthead?.setAttribute('data-stuck', String(window.scrollY > 8));
+      };
+      onScroll();
+      addEventListener('scroll', onScroll, { passive: true });
+    </script>
+  </body>
+</html>
