@@ -6,10 +6,12 @@ import starlight from '@astrojs/starlight';
 // component of any kind. Starlight's search is Pagefind, which is a static index
 // queried in the browser, so the docs stay searchable on any dumb file host.
 export default defineConfig({
-  // A project page on GitHub Pages: the site lives under /kagami/, so every
-  // hand-written link goes through src/lib/url.ts. Moving to a domain of its own
-  // later means a public/CNAME, `site` set to that domain and `base` removed.
-  site: 'https://hossainalhaidari.github.io',
+  // A project page on GitHub Pages. The account's Pages domain is hossain.al, so
+  // GitHub serves this repository's site at https://hossain.al/kagami/ (and
+  // redirects hossainalhaidari.github.io/kagami/ there). Living under /kagami/,
+  // every hand-written link goes through src/lib/url.ts. A domain of its own later
+  // means a public/CNAME, `site` set to that domain and `base` removed.
+  site: 'https://hossain.al',
   base: '/kagami',
   trailingSlash: 'always',
   integrations: [

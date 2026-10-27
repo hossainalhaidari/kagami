@@ -13,8 +13,8 @@
 </p>
 
 <p align="center">
-  <a href="https://hossainalhaidari.github.io/kagami/">Website</a> ·
-  <a href="https://hossainalhaidari.github.io/kagami/docs/">Documentation</a> ·
+  <a href="https://hossain.al/kagami/">Website</a> ·
+  <a href="https://hossain.al/kagami/docs/">Documentation</a> ·
   <a href="https://github.com/hossainalhaidari/kagami/releases">Download</a>
 </p>
 
@@ -36,7 +36,7 @@ make test   # run the test suite (it writes to a throwaway RAM disk, never a rea
 
 Choose an image, choose a drive, press **Flash**. Raw `.img` and `.iso` files work, and so do
 `.gz`, `.xz`, `.bz2` and `.zip` images, decompressed on the fly. Everything else, from supported
-images to troubleshooting, is in the [documentation](https://hossainalhaidari.github.io/kagami/docs/).
+images to troubleshooting, is in the [documentation](https://hossain.al/kagami/docs/).
 How it works inside is in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## License
@@ -47,5 +47,5 @@ Kagami is released under the [MIT License](LICENSE).
 limited to the warranties of merchantability, fitness for a particular purpose and non-infringement.
 In no event shall the authors be liable for any claim, damages or other liability arising from, out
 of or in connection with the software or its use. Flashing erases the chosen drive completely; check
-which drive you picked. See [Transparency](https://hossainalhaidari.github.io/kagami/docs/transparency/)
+which drive you picked. See [Transparency](https://hossain.al/kagami/docs/transparency/)
 for how the project was built.

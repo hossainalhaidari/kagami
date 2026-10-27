@@ -7,7 +7,7 @@ import AppKit
 @MainActor
 enum AboutPanel {
     static let developer = "Hossain Alhaidari"
-    static let website = URL(string: "https://hossainalhaidari.github.io/kagami/")!
+    static let website = URL(string: "https://hossain.al/kagami/")!
     static let sourceCode = URL(string: "https://github.com/hossainalhaidari/kagami")!
 
     static func show() {

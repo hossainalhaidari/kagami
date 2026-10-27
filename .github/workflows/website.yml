@@ -4,8 +4,8 @@ name: Website
 # touches it. A push that changes only the app leaves the site alone: it would deploy the same
 # bytes again.
 #
-# The address is https://hossainalhaidari.github.io/kagami/, the repository's project page, which is
-# why Website/astro.config.mjs sets `base: '/kagami'`. A domain of its own later means a
+# The address is https://hossain.al/kagami/: the repository's project page, under the account's
+# Pages domain, which is why Website/astro.config.mjs sets `base: '/kagami'`. A domain of its own later means a
 # Website/public/CNAME, the same domain in the Pages settings, and dropping `base`.
 #
 # ci.yml is the other half of the split: it ignores Website/ and Markdown, this one builds nothing
